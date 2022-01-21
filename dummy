@@ -7,3 +7,4 @@ sonar.language=java
 sonar.java.coveragePlugin=jacoco
 hi
 hi i am from test1 branch
+hi i am from  test2 branch
