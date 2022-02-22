@@ -1,59 +1,22 @@
-pipeline {
+pipeline{
     agent any
-
-    tools {
-        // auto installed maven
+    
+    tools{
         maven "Maven"
     }
-
-    stages {
-        stage('cleanup')
-        {
+    stages{
+        stage('Git Clone'){
             steps{
-                deleteDir()
+                git branch: 'main', credentialsId: 'my-github-credentials', url: 'https://github.com/jijo2323/java_app.git'
             }
         }
-        stage('Git Checkout') {
-            steps {
-                
-                git credentialsId: 'my-bitbucket-creds', url: 'https://dineshtoon@bitbucket.org/dineshtoon/java_maven.git'
-            }
-
-        }
-        stage('maven and jacoco') {
-            steps {
-                sh 'mvn clean install'
-                //sh 'mvn sonar:sonar'
-            }
-
-        }
-        stage('Sonarqube') {
-    environment {
-        scannerHome = tool 'Sonar'
-    }
-    steps {
-        withSonarQubeEnv('SonarServer') {
-            sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=java_maven -Dsonar.sources=. -Dsonar.java.binaries=target/classes/com/mycompany/app/ "
-            //sh "${scannerHome}/bin/sonar-scanner"
-          echo 'some'
-        }
-        }
-    }
-    stage("Quality gate") {
-            steps {
-                waitForQualityGate abortPipeline: true
-               echo 'some'
+        
+        stage('Build'){
+            steps{
+                sh "mvn clean install"
             }
         }
-    
-        stage('Deploy') {
-            steps {
-                //sh 'mvn test'
-                echo 'deploying to nexus of target server'
-            }
-
-        }
+        
+        
     }
 }
-
-
