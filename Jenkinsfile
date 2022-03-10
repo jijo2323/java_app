@@ -23,7 +23,7 @@ pipeline{
             }
             steps{
                 withSonarQubeEnv('SonarServer'){
-                    sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=java_maven -Dsonar.sources=. -Dsonar.java.binaries=target/classes/com/mycompany/app/ 
+                    sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=java_maven -Dsonar.sources=. -Dsonar.java.binaries=target/classes/com/mycompany/app/ " 
                 }
 
             }
